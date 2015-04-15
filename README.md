@@ -1,6 +1,7 @@
 # puredata-window
 
-Window is a Pure Data external to manipulate Pure Data windows properties
+Window is a Pure Data external to manipulate Pure Data windows properties 
+![My image](https://github.com/flschiavoni/puredata-window/blob/gh-pages/window.png) 
 
 TO COMPILE
 ==========
@@ -20,11 +21,11 @@ TO INSTALL ONLY TO USER (Linux)
 
 `cp window.pd_linux ~/pd-externals/window/.`
 
-`cp window_help.pd  ~/pd-externals/window/.`
+`cp window-help.pd  ~/pd-externals/window/.`
 
 `cp window-meta.pd  ~/pd-externals/window/.`
 
-FILES INFORMATION
+FILE INFORMATION
 =================
 
 Makefile is based on oficial Pure Data Makefile Template available in:
