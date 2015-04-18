@@ -32,7 +32,7 @@ TO INSTALL ONLY TO USER (Linux)
 
 `cp *-meta.pd  ~/pd-externals/window/.`
 
-FILES INFORMATION
+FILE INFORMATION
 =================
 
 Makefile is based on oficial Pure Data Makefile Template available in:
