@@ -7,57 +7,45 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static t_class *window_class;
+static t_class *dragwindow_class;
 
-typedef struct _window {
+typedef struct _dragwindow {
    t_object x_obj;
    t_symbol *sp_name;
-   t_symbol *sp_title;
-   t_symbol *sp_color;
    t_glist *glist;
    t_canvas *x_canvas;
    t_float x1;
    t_float x2;
    t_float y1;
    t_float y2;
-} t_window;
+} t_dragwindow;
 
-t_glist * window_find_parent(t_glist * glist);
-void window_recursive_search(t_window *x, t_glist *c, t_symbol *sp_name);
-void window_do(t_window *x, t_canvas * c);
+t_glist * dragwindow_find_parent(t_glist * glist);
+void dragwindow_recursive_search(t_dragwindow *x, t_glist *c, t_symbol *sp_name);
+void dragwindow_do(t_dragwindow *x, t_canvas * c);
 
-void window_process(t_window *x){
+void dragwindow_process(t_dragwindow *x){
   t_glist *c = x->x_canvas;
    if(c == NULL){
       return;
    }
 
    if(strcmp(x->sp_name->s_name, "") == 0){
-      window_do(x, (t_canvas*) x->x_canvas);
+      dragwindow_do(x, (t_canvas*) x->x_canvas);
       return;
    }
-   window_recursive_search(x, c, x->sp_name);
+   dragwindow_recursive_search(x, c, x->sp_name);
 }
 
-void window_drag(t_window *x, t_floatarg f0, t_floatarg f1, t_floatarg f2, t_floatarg f3){
+void dragwindow_drag(t_dragwindow *x, t_floatarg f0, t_floatarg f1, t_floatarg f2, t_floatarg f3){
    x->x1 = (f0 > -1)?f0:0;
    x->x2 = (f1 > -1)?f1:0;
    x->y1 = (f2 > -1)?f2:0;
    x->y2 = (f3 > -1)?f3:0;
-   window_process(x);
+   dragwindow_process(x);
 }
 
-void window_title(t_window *x, t_symbol * title){
-   x->sp_title = title;
-   window_process(x);
-}
-
-void window_color(t_window *x, t_symbol * color){
-   x->sp_color = color;
-   window_process(x);
-}
-
-void window_set(t_window *x, t_symbol * sp_name){
+void dragwindow_set(t_dragwindow *x, t_symbol * sp_name){
    x->sp_name = sp_name;
    if(strcmp(sp_name->s_name, "") == 0){
       t_canvas *canvas=(t_canvas*)glist_getcanvas(x->glist);
@@ -66,37 +54,29 @@ void window_set(t_window *x, t_symbol * sp_name){
    }
    //It was empty. Now we need to find the parent
    if(strcmp(x->sp_name->s_name, "") != 0){
-      t_glist * glist = window_find_parent(x->x_canvas);
+      t_glist * glist = dragwindow_find_parent(x->x_canvas);
       t_canvas *canvas=(t_canvas*)glist_getcanvas(glist);
       x->x_canvas = canvas;
    }
 }
 
-void window_do(t_window *x, t_canvas * c){
+void dragwindow_do(t_dragwindow *x, t_canvas * c){
    if(x->x1 > -1 && x->x2 > -1 && x->y1 > -1 && x->y2 > -1){
       int width = x->x2 - x->x1;
       int height = x->y2 - x->y1;
       sys_vgui("wm geometry .x%lx %dx%d+%d+%d;\n", c, width, height, (int)x->x1, (int)x->y1);
    }
-
-   if(x->sp_title != NULL)
-      sys_vgui("wm title .x%lx \"%s\";\n", c, x->sp_title->s_name);
-
-//   printf("wm title .x%lx \"%s\";\n", (long unsigned int)c, x->sp_title->s_name);
-
-   if(x->sp_color != NULL)
-      sys_vgui(".x%lx.c configure -bg \"%s\";\n", c, x->sp_color->s_name);
 }
 
 
 
-void window_recursive_search(t_window *x, t_glist *c, t_symbol *sp_name){
+void dragwindow_recursive_search(t_dragwindow *x, t_glist *c, t_symbol *sp_name){
    t_gobj*obj = NULL;
    for(obj = c->gl_list; obj; obj = obj->g_next) {
       if(pd_class(&obj->g_pd) != canvas_class)
          continue;
       //if subpatchname is empty, don't go recursively
-      window_recursive_search(x, ((t_glist *)obj) ,sp_name);
+      dragwindow_recursive_search(x, ((t_glist *)obj) ,sp_name);
       //look for subpatch name
       t_binbuf *bz = binbuf_new();
       t_symbol *patchsym;
@@ -105,11 +85,11 @@ void window_recursive_search(t_window *x, t_glist *c, t_symbol *sp_name){
       binbuf_free(bz);
       if(strcmp(sp_name->s_name, patchsym->s_name) == 0
          || strcmp(sp_name->s_name, "") == 0)
-         window_do(x, (t_canvas *)obj);
+         dragwindow_do(x, (t_canvas *)obj);
    }
 }
 
-t_glist * window_find_parent(t_glist * glist){
+t_glist * dragwindow_find_parent(t_glist * glist){
    while(glist->gl_owner){
       glist = glist->gl_owner;
    }
@@ -117,18 +97,16 @@ t_glist * window_find_parent(t_glist * glist){
 }
 
 // Constructor of the class
-void * window_new(t_symbol *sp_name_arg) {
-   t_window *x = (t_window *) pd_new(window_class);
+void * dragwindow_new(t_symbol *sp_name_arg) {
+   t_dragwindow *x = (t_dragwindow *) pd_new(dragwindow_class);
    t_glist *glist=(t_glist *)canvas_getcurrent();
    x->glist = glist;
    x->sp_name = sp_name_arg;
    // if no name, we use the actual canvas
    if(strcmp(x->sp_name->s_name, "") != 0)
-      glist = window_find_parent(glist);
+      glist = dragwindow_find_parent(glist);
    t_canvas *canvas=(t_canvas*)glist_getcanvas(glist);
    x->x_canvas = canvas;
-   x->sp_title = NULL;
-   x->sp_color = NULL;
    x->x1 = -1;
    x->x2 = -1;
    x->y1 = -1;
@@ -137,23 +115,21 @@ void * window_new(t_symbol *sp_name_arg) {
 }
 
 // Destroy the class
-void window_destroy(t_window *x) {
+void dragwindow_destroy(t_dragwindow *x) {
    (void) x;
 //   post("You say good bye and I say hello");
 }
 
 
-void window_setup(void) {
-   window_class = class_new(gensym("window"),
-      (t_newmethod) window_new, // Constructor
-      (t_method) window_destroy, // Destructor
-      sizeof (t_window),
+void dragwindow_setup(void) {
+   dragwindow_class = class_new(gensym("dragwindow"),
+      (t_newmethod) dragwindow_new, // Constructor
+      (t_method) dragwindow_destroy, // Destructor
+      sizeof (t_dragwindow),
       CLASS_DEFAULT,
       A_DEFSYMBOL,
       0);//Must always ends with a zero
 
-   class_addmethod(window_class, (t_method) window_drag, gensym("drag"),A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT,  0);
-   class_addmethod(window_class, (t_method) window_title, gensym("title"),A_DEFSYMBOL,  0);
-   class_addmethod(window_class, (t_method) window_color, gensym("color"),A_DEFSYMBOL,  0);
-   class_addmethod(window_class, (t_method) window_set, gensym("set"),A_DEFSYMBOL,  0);
+   class_addmethod(dragwindow_class, (t_method) dragwindow_drag, gensym("drag"),A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT,  0);
+   class_addmethod(dragwindow_class, (t_method) dragwindow_set, gensym("set"),A_DEFSYMBOL,  0);
 }

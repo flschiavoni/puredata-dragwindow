@@ -6,7 +6,7 @@ LIBRARY_NAME = window
 # add your .c source files, one object per file, to the SOURCES
 # variable, help files will be included automatically, and for GUI
 # objects, the matching .tcl file too
-SOURCES = window.c
+SOURCES = dragwindow.c titlewindow.c colorwindow.c
 
 # list all pd objects (i.e. myobject.pd) files here, and their helpfiles will
 # be included automatically

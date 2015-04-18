@@ -1,0 +1,28 @@
+#N canvas 603 213 383 239 10;
+#X msg 52 45 color #FF0000;
+#X msg 51 65 color #000000;
+#X msg 51 86 color #FFFFFF;
+#N canvas 53 87 800 600 test 1;
+#X obj 606 194 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 491 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 542 464 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 704 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 591 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 561 328 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 37 37;
+#X coords 600 0 1 1 0 0 0;
+#X restore 205 173 pd test;
+#X text 54 26 Change canvas color;
+#X text 101 174 <-subpatch name;
+#X text 130 210 Developed by Flavio Schiavoni;
+#X obj -4 174 colorwindow test;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 0;
+#X coords 400 0 1 1 0 0 0;

@@ -1,6 +1,14 @@
 # puredata-window
 
-Window is a Pure Data external to manipulate Pure Data windows properties
+Window is a Pure Data library to manipulate Pure Data windows properties like
+canvas color, position and title.
+
+![My image](https://github.com/flschiavoni/puredata-window/blob/gh-pages/dragwindow.png)  
+
+![My image](https://github.com/flschiavoni/puredata-window/blob/gh-pages/colorwindow.png)  
+
+![My image](https://github.com/flschiavoni/puredata-window/blob/gh-pages/titlewindow.png)  
+
 
 TO COMPILE
 ==========
@@ -18,11 +26,11 @@ TO INSTALL ONLY TO USER (Linux)
 
 `mkdir -p ~/pd-externals/window`
 
-`cp window.pd_linux ~/pd-externals/window/.`
+`cp *.pd_linux ~/pd-externals/window/.`
 
-`cp window_help.pd  ~/pd-externals/window/.`
+`cp *-help.pd  ~/pd-externals/window/.`
 
-`cp window-meta.pd  ~/pd-externals/window/.`
+`cp *-meta.pd  ~/pd-externals/window/.`
 
 FILES INFORMATION
 =================

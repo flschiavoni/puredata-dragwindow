@@ -1,0 +1,24 @@
+#N canvas 603 213 400 224 10;
+#N canvas 53 87 800 600 test 1;
+#X obj 606 194 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 491 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 542 464 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 704 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 591 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 561 328 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 37 37;
+#X coords 600 0 1 1 0 0 0;
+#X restore 226 161 pd test;
+#X msg -25 80 title My_new_window_title;
+#X text -26 64 Set window title;
+#X text 115 162 <-subpatch name;
+#X text 161 193 Developed by Flavio Schiavoni;
+#X obj 12 161 titlewindow test;
+#X connect 1 0 5 0;
+#X coords 400 0 1 1 0 0 0;

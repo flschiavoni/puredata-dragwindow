@@ -1,0 +1,28 @@
+#N canvas 322 233 383 295 10;
+#X msg 43 28 drag 500 800 500 800;
+#N canvas 494 445 300 300 test 0;
+#X obj 606 194 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 491 164 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 542 464 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 704 153 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 591 288 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 561 328 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 37 37;
+#X coords 600 0 1 1 0 0 0;
+#X restore 210 217 pd test;
+#X text 45 8 move / resive window pos(x1 x2 y1 y2);
+#X text 40 201 <-subpatch name;
+#X text 137 264 Developed by Flavio Schiavoni;
+#X obj -59 201 dragwindow test;
+#X msg 54 52 drag 10 100 100 600;
+#X msg 62 77 drag 10 600 10 100;
+#X connect 0 0 5 0;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X coords 400 0 1 1 0 0 0;
